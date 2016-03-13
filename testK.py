@@ -31,6 +31,7 @@ def get_data_by_name(filename):
                   (int)(s_line[5]), (int)(s_line[7])]
         data[(int)(filename[29])].append(result)
 
+
 def init():
     for i in range(class_num):
         data.append([i])
@@ -75,17 +76,18 @@ def cal_distance_by_eu(RSSI):
         if tmpMax < count[i]:
             tmpMax = count[i]
             max_num = i
-
     return max_num
 
-def print_correct_rate(trueValue):
-    sum = 0
-    for k in range(data_num):
-        if cal_distance_by_eu(data[trueValue][k + 1]) == trueValue:
-            sum += 1
 
-    print sum / data_num
-    return sum / data_num
+def test_diff_district():
+    sum = 0
+    for trueValue in range(class_num):
+        for k in range(data_num):
+            if cal_distance_by_eu(data[trueValue][k + 1]) == trueValue:
+                sum += 1
+    print sum
+    return
+
 
 @app.route('/', methods=['POST'])
 def get_location():
@@ -99,4 +101,9 @@ def get_location():
 
 if __name__ == '__main__':
     init()
+    for i in range(1, 25):
+        print "k = %d"%i
+        k_value = i
+        test_diff_district()
+    print "end!"
     app.run('0.0.0.0')
